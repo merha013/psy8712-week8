@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Reproducible Image and Online Resources
 
-An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](http://example.com).
+An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](https://mybinder.org/v2/gh/merha013/psy8712-week8/HEAD?urlpath=rstudio).
 
 An interactive web app is available by clicking [this link](http://example.com) instead.
 
@@ -47,18 +47,23 @@ week8_tbl <- read_csv("../data/week3.csv") %>%
                                    B = "Block B", 
                                    C = "Control"),
          q5 = max(q5)-q5+1,
-         average1 = (q1+q2+q3+q4+q5+q6)/6,  # probably a better way to do this, but mean(q1:q6) wasn't working for me
+         average1 = (q1+q2+q3+q4+q5+q6)/6,  # probably a better way to do this, but (q1:q6) wasn't working for me
          average2 = (q8+q9+q10)/3) %>%
   filter(q6==1)
 ```
 
 ## Visualization
 
+The following table shows the data contained in questions 1 through 6. It is paginated so that data is less overwhelming and shows only ten rows at a time.
+
+```{r, echo=FALSE, message=FALSE}
+week8_tbl %>%
+  select(q1:q6)
+```
+
 The following scatterplot was created using the data from week8_tbl and putting the mean scores of questions 1-6 on the x-axis and the mean scores of questions 8-10 on the y-axis. A purple OLS regression line with a shaded error band is included in the depiction. Additionally, the input code to create this scatterplot has been hidden from the final output.
 
 ```{r, echo=FALSE, message = FALSE}
-week8_tbl
-
 week8_tbl %>%
   ggplot(aes(x=average1, y=average2)) +
   geom_point() +
@@ -70,13 +75,17 @@ week8_tbl %>%
 
 ## Analysis
 
-display output summarizing the correlation between the two mean scores and an associated p-value using *cor.test*(). Re-display the correlation dynamically within the plain text explanation, which should appear outside of any code chunk as previously indicated. For example, you might say, “I observed a correlation of .21”, but the value displayed for “.21” should be calculated each time the Notebook is generated rather than written literally. Explain your interpretation of the p-value in your explanation. Be sure to round your correlation to two decimal places and display no leading zero.
-
-```{r}
-week8_tbl %>%
-  ggplot(aes())
+```{r, echo=FALSE, message = FALSE}
+(analysis <- cor.test(week8_tbl$average1, week8_tbl$average2))
+correlation <- round(analysis$estimate, digits=2) # need to remove the leading 0
 ```
+
+I observed a correlation of `r correlation` and a p-value of `r analysis$p.value`. This p-value means, using an $\alpha$=0.05, there is at least a `r format(analysis$p.value*100)`% probability of observing the collected data if there were truly no relationship between the mean of questions 1-6 and the mean of questions 8-10. Since `r analysis$p.value` \> $\alpha$, we fail to reject the null hypothesis that the true correlation is equal to 0. There is not enough evidence to conclude that there is a statistically significant relationship between the variables being tested at the 0.05 significance level.
 
 ## Data Export
 
 In a single series of pipes, export a minimal/skinny version of the dataset appropriate for shiny.
+
+```{r}
+
+```
