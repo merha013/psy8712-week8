@@ -57,7 +57,7 @@ week8_tbl <- read_csv("../data/week3.csv") %>%
 The following scatterplot was created using the data from week8_tbl and putting the mean scores of questions 1-6 on the x-axis and the mean scores of questions 8-10 on the y-axis. A purple OLS regression line with a shaded error band is included in the depiction. Additionally, the input code to create this scatterplot has been hidden from the final output.
 
 ```{r, echo=FALSE, message = FALSE}
-summary(week8_tbl)
+week8_tbl
 
 week8_tbl %>%
   ggplot(aes(x=average1, y=average2)) +
