@@ -1,0 +1,82 @@
+---
+title: "PSY8712 Week 8 Project"
+author: "Merhar"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reproducible Image and Online Resources
+
+An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](http://example.com).
+
+An interactive web app is available by clicking [this link](http://example.com) instead.
+
+## Script Settings and Resources
+
+```{r, echo = TRUE, message = FALSE, warning = FALSE}
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+library(rsconnect)
+library(shiny)
+library(shiny)
+library(tinytex)
+library(tidyverse)
+```
+
+## Data Import and Cleaning
+
+The following code uses a single pipeline to create week8_tbl from the data (week3.csv). It converts the timeStart and timeEnd data types into their correct types, calculates each participant’s total number of minutes spent in the study as a new variable called timeSpent, relabels the variables for gender and condition, reverses the code for q5, removes all cases that failed the manipulation check (i.e., the participant responded with anything other than a 1 to q6), and drops q6 from the final tbl. I also created two additional columns called 'average1' and 'average2' that provide the means of q1:q6 and q8:q10 respectively since it is needed in the Visualization section.
+
+```{r, message = FALSE, show_col_types=FALSE}
+week8_tbl <- read_csv("../data/week3.csv") %>%
+  mutate(timeStart = ymd_hms(timeStart),
+         timeEnd = ymd_hms(timeEnd),
+         timeSpent = as.numeric(timeEnd-timeStart),
+         gender = recode_factor(gender,
+                                M = "Male",
+                                F = "Female"),
+         condition = recode_factor(condition, 
+                                   A = "Block A", 
+                                   B = "Block B", 
+                                   C = "Control"),
+         q5 = max(q5)-q5+1,
+         average1 = (q1+q2+q3+q4+q5+q6)/6,  # probably a better way to do this, but mean(q1:q6) wasn't working for me
+         average2 = (q8+q9+q10)/3) %>%
+  filter(q6==1)
+```
+
+## Visualization
+
+The following scatterplot was created using the data from week8_tbl and putting the mean scores of questions 1-6 on the x-axis and the mean scores of questions 8-10 on the y-axis. A purple OLS regression line with a shaded error band is included in the depiction. Additionally, the input code to create this scatterplot has been hidden from the final output.
+
+```{r, echo=FALSE, message = FALSE}
+summary(week8_tbl)
+
+week8_tbl %>%
+  ggplot(aes(x=average1, y=average2)) +
+  geom_point() +
+  geom_smooth(method="lm", color="purple") +
+  labs(title = "Scatterplot between Mean Scores",
+       x = "Mean Scores on Q1-Q6",
+       y = "Mean Scores on Q8-Q10")
+```
+
+## Analysis
+
+display output summarizing the correlation between the two mean scores and an associated p-value using *cor.test*(). Re-display the correlation dynamically within the plain text explanation, which should appear outside of any code chunk as previously indicated. For example, you might say, “I observed a correlation of .21”, but the value displayed for “.21” should be calculated each time the Notebook is generated rather than written literally. Explain your interpretation of the p-value in your explanation. Be sure to round your correlation to two decimal places and display no leading zero.
+
+```{r}
+week8_tbl %>%
+  ggplot(aes())
+```
+
+## Data Export
+
+In a single series of pipes, export a minimal/skinny version of the dataset appropriate for shiny.
