@@ -1,41 +1,38 @@
 library(shiny)
+library(tidyverse)
+#week8_skinny_tbl <- readRDS("week8_skinny.RDS")
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("shiny_week8"),
-
-    # Sidebar with a slider input for number of bins 
+    titlePanel("shiny_week8"),  # Application title
     sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
+      sidebarPanel(
+        radioButtons("Gender",
+                     "I would like to display:",
+                     choices = c("All", "Male", "Female")),
+        radioButtons("Error Band",
+                     "I would like to:",
+                     choices = c("Display Error Band", "Suppress Error Band")),
+        radioButtons("Participants",
+                    "Would you like to include participants that completed 
+                    the assessment before July 1, 2017?",
+                    choices = c("Yes", "No"))
+      ),
+      mainPanel(
+        plotOutput("week8plot")
+      )
     )
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-    })
+    output$week8Plot <- renderPlot({
+        ggplot(week8_skinny_tbl, aes(x=average1, y=average2)) +
+        geom_point() +
+        geom_smooth(method="lm", color="purple") +
+        labs(title = "Scatterplot between Mean Scores",
+             x = "Mean Scores on Q1-Q6",
+             y = "Mean Scores on Q8-Q10")
+      })
 }
 
 # Run the application 
