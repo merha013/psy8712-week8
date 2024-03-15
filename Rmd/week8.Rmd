@@ -22,9 +22,8 @@ An interactive web app is available by clicking [this link](http://example.com) 
 ## Script Settings and Resources
 
 ```{r, echo = TRUE, message = FALSE, warning = FALSE}
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(rsconnect)
-library(shiny)
 library(shiny)
 library(tinytex)
 library(tidyverse)
@@ -84,10 +83,10 @@ I observed a correlation of `r correlation` and a p-value of `r analysis$p.value
 
 ## Data Export
 
-In a single series of pipes, export a minimal/skinny version of the dataset appropriate for shiny.
+A minimal/skinny version of the dataset appropriate for shiny has been created via a single series of pipes and exported.
 
 ```{r}
 week8_tbl %>%
   select(timeEnd, gender, condition, average1, average2) %>%
-  saveRDS("week8_skinny.rds")
+  saveRDS("../shiny/week8/skinny.RDS")
 ```
