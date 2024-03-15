@@ -1,6 +1,5 @@
 library(shiny)
 library(tidyverse)
-skinny_tbl <- readRDS("../shiny/week8/skinny.RDS")
 
 ui <- fluidPage(
     titlePanel("shiny_week8"),  # Application title
@@ -28,10 +27,12 @@ ui <- fluidPage(
 
 server <- function(input, output) {
 
+  skinny_tbl <- readRDS("skinny.RDS")
+  
     output$week8Plot <- renderPlot({
-      sliced_tbl <- skinny_tbl %>%
-        filter(gender == input$Gender) 
-      ggplot(sliced_tbl, aes(x=average1, y=average2)) +
+      # sliced_tbl <- skinny_tbl %>%
+        # filter(gender == input$Gender) 
+      ggplot(skinny_tbl, aes(x=average1, y=average2)) +
         geom_point() +
         geom_smooth(method="lm", se=TRUE, color="purple") +
         labs(title = "Scatterplot between Mean Scores",
