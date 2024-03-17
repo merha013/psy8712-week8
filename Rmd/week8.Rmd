@@ -15,9 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Reproducible Image and Online Resources
 
-An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](https://mybinder.org/v2/gh/merha013/psy8712-week8/HEAD).
+An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](https://mybinder.org/v2/gh/merha013/psy8712-week8/HEAD?urlpath=rstudio).
 
-An interactive web app is available by clicking [this link](http://example.com) instead.
+An interactive web app is available by clicking [this link](https://merha013.shinyapps.io/week8/) instead.
 
 ## Script Settings and Resources
 
