@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Reproducible Image and Online Resources
 
-An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](https://mybinder.org/v2/gh/merha013/psy8712-week8/HEAD?urlpath=rstudio).
+An image of this project as of *`r format(Sys.Date(), "%d %B %Y")`* can be accessed by clicking [this link](https://mybinder.org/v2/gh/merha013/psy8712-week8/HEAD).
 
 An interactive web app is available by clicking [this link](http://example.com) instead.
 
@@ -88,5 +88,5 @@ A minimal/skinny version of the dataset appropriate for shiny has been created v
 ```{r}
 week8_tbl %>%
   select(timeEnd, gender, condition, average1, average2) %>%
-  saveRDS("../shiny/week8/skinny.RDS")
+  saveRDS("../shiny/week8/skinny.rds")
 ```
